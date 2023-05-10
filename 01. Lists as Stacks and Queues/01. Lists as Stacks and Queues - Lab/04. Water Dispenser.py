@@ -9,7 +9,7 @@ while command != "Start":
     command = input()
 
 command = input()
-liters = 0
+
 while command != 'End':
     command = command.split()
     if command[0] == "refill":
