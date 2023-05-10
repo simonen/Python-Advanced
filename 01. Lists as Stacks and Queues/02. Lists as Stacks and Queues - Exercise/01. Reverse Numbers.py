@@ -1,7 +1,5 @@
 numbers = input().split()
 
-stack = []
-for i in range(len(numbers)):
-    stack.append(numbers.pop())
-
-print(" ".join(stack))
+while numbers:
+    number = numbers.pop()
+    print(number, end=" ")
