@@ -1,9 +1,5 @@
 robots = input().split(";")
-busy_robots = {}
-for x in robots:
-    key = x.split("-")[0]
-    if key not in busy_robots:
-        busy_robots[key] = 0
+start_time = input().split(":")
 
 command = input()
 product_queue = []
@@ -12,7 +8,7 @@ while command != 'End':
     product_queue.append(product)
     command = input()
 
-start_time = input().split(":")
+busy_robots = {x.split("-")[0]: 0 for x in robots}
 hh, mm, ss = start_time
 total_seconds = int(hh) * 3600 + int(mm) * 60 + int(ss)
 seconds = 0
@@ -23,11 +19,11 @@ while len(product_queue) > 0:
     mm = (total_seconds // 60) % 60
     ss = total_seconds % 60
 
-    product = product_queue.pop(0)
-    for k, v in busy_robots.items():
-        if busy_robots[k] != 0:
-            busy_robots[k] -= 1
+    for key in busy_robots:
+        if busy_robots[key] != 0:
+            busy_robots[key] -= 1
 
+    product = product_queue.pop(0)
     for x in robots:
         index = robots.index(x)
         name = robots[index].split("-")[0]
