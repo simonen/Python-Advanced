@@ -1,8 +1,10 @@
 robots = input().split(";")
-robots.append("Busy")
-busy_robots = []
-# print(robots)
-start_time = input().split(":")
+busy_robots = {}
+for x in robots:
+    key = x.split("-")[0]
+    if key not in busy_robots:
+        busy_robots[key] = 0
+
 command = input()
 product_queue = []
 while command != 'End':
@@ -10,12 +12,10 @@ while command != 'End':
     product_queue.append(product)
     command = input()
 
-# print(product_queue)
-seconds = 0
+start_time = input().split(":")
 hh, mm, ss = start_time
 total_seconds = int(hh) * 3600 + int(mm) * 60 + int(ss)
-free_at = 0
-bot = ''
+seconds = 0
 while len(product_queue) > 0:
     total_seconds += 1
     seconds += 1
@@ -23,32 +23,18 @@ while len(product_queue) > 0:
     mm = (total_seconds // 60) % 60
     ss = total_seconds % 60
 
-    for i in range(len(busy_robots)):
-        name = busy_robots[i].split("-")[0]
-        processing = int(busy_robots[i].split("-")[1])
-        processing -= 1
-        busy_robots[i] = f"{name}-{processing}"
-        if int(busy_robots[i].split("-")[1]) == 0:
-            bot = busy_robots.pop(i)
-            busy_robots.append(bot)
-            for j in robots:
-                if j.split("-")[0] == bot.split("-")[0]:
-                    bot = j
-            robots.pop(robots.index(bot))
-            robots.insert(0, bot)
-    if int(busy_robots[-1].split("-")[1]) == 0:
-        while int(busy_robots[-1].split("-")[1]) == 0:
-            busy_robots.pop(-1)
-    name = robots[0].split("-")[0]
-    if not any(name in x.split("-")[0] for x in busy_robots):
-        busy_robots.append(robots[0])
-        robots.append(robots.pop(0))
-        product = product_queue.pop(0)
-        print(f"{name} - {product} [{hh:0>2}:{mm:0>2}:{ss:0>2}]")
-        continue
+    product = product_queue.pop(0)
+    for k, v in busy_robots.items():
+        if busy_robots[k] != 0:
+            busy_robots[k] -= 1
+
+    for x in robots:
+        index = robots.index(x)
+        name = robots[index].split("-")[0]
+        processing = int(robots[index].split("-")[1])
+        if busy_robots[name] == 0:
+            busy_robots[name] = processing
+            print(f"{name} - {product} [{hh:0>2}:{mm:0>2}:{ss:0>2}]")
+            break
     else:
-        product_queue.append(product_queue.pop(0))
-
-
-
-
+        product_queue.append(product)
