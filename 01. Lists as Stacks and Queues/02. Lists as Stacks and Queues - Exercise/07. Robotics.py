@@ -11,10 +11,9 @@ while command != 'End':
 busy_robots = {x.split("-")[0]: 0 for x in robots}
 hh, mm, ss = start_time
 total_seconds = int(hh) * 3600 + int(mm) * 60 + int(ss)
-seconds = 0
+
 while len(product_queue) > 0:
     total_seconds += 1
-    seconds += 1
     hh = (total_seconds // 3600) % 24
     mm = (total_seconds // 60) % 60
     ss = total_seconds % 60
