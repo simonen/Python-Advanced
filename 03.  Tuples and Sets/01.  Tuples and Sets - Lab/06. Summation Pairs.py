@@ -10,7 +10,4 @@ while digits:
         if int(i) + int(a) == target:
             print(f"{a} + {i} = {target}")
 
-print("--- %s seconds ---" % (time.time() - start_time))
-
-
-print(digits)
+print("--- %s seconds ---" % round(time.time() - start_time, 3))
