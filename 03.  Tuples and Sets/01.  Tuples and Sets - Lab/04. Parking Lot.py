@@ -7,7 +7,7 @@ for _ in range(int(input())):
     if direction == "OUT":
         lot.remove(plate)
 
-if len(lot) == 0:
+if not lot:
     print("Parking Lot is Empty")
 else:
-    [print(x) for x in lot]
+    print(*lot, sep="\n")
