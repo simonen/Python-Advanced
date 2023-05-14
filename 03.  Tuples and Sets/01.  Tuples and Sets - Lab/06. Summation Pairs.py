@@ -1,9 +1,16 @@
-digits = input().split()
+import time
+
+digits = set(input().split())
 target = int(input())
+start_time = time.time()
 
 while digits:
-    digit = int(digits.pop(0))
-    for d in digits:
-        if digit + int(d) == target:
-            print(f"{digit} + {d} = {target}")
+    a = digits.pop()
+    for i in digits:
+        if int(i) + int(a) == target:
+            print(f"{a} + {i} = {target}")
 
+print("--- %s seconds ---" % (time.time() - start_time))
+
+
+print(digits)
