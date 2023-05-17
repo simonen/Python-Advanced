@@ -5,11 +5,7 @@ for _ in range(int(input())):
     command = input().split()
     action = command[0]
     if action == "Check":
-        if len(line1) < len(line2):
-            print(line1.issubset(line2))
-        else:
-            print(line2.issubset(line1))
-            continue
+        print(line1.issubset(line2) or line2.issubset(line1))
 
     sequence = set(map(int, command[2:]))
     if action == 'Add':
