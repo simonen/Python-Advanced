@@ -8,9 +8,12 @@ for i in range(rows):
 # print(matrix)
 inv_matrix = []
 
-for x in range(len(matrix[0])):
+for j in range(len(matrix[0])):
     line = []
-    for j in range(len(matrix)):
-        line.append(matrix[j][x])
+    for i in range(len(matrix)):
+        line.append(matrix[i][j])
     inv_matrix.append(line)
     print(sum(line))
+
+# chek = [[matrix[i][j] for i in range(len(matrix))] for j in range(len(matrix[0]))]
+# print(chek)
