@@ -1,7 +1,7 @@
 rows, cols = [int(x) for x in input().split(", ")]
 matrix = [[j for j in map(int, input().split(", "))] for i in range(rows)]
 
-submatrix = []
+# submatrix = []
 max_submatrix = []
 max_sum = 0
 
@@ -12,7 +12,7 @@ for i in range(rows - 1):
         subm.append(top_pair)
         bottom_pair = matrix[i + 1][j:j + 2]
         subm.append(bottom_pair)
-        submatrix.append(subm)
+        # submatrix.append(subm)
         if sum(top_pair) + sum(bottom_pair) > max_sum:
             max_sum = sum(top_pair) + sum(bottom_pair)
             max_submatrix = subm
