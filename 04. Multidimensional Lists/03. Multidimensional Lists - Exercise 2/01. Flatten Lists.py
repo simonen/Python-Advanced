@@ -1,7 +1,5 @@
-string = input().split("|")
-
 matrix = []
-for i in string[::-1]:
+for i in input().split("|")[::-1]:
     matrix.extend(i.split())
 
 print(*matrix)
