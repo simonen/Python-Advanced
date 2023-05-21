@@ -6,6 +6,7 @@ for k in input().split():
     damage = matrix[row][col]
     if damage <= 0:
         continue
+
     matrix[row][col] = 0
     top_row = row - 1
     end_row = row + 1
