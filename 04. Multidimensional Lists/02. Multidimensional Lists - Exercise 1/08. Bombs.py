@@ -21,7 +21,7 @@ for k in input().split():
         left_col = 0
     if col == size - 1:
         right_col = size - 1
-
+    # The 3x3 submatrix with the bomb at the center
     for i in range(top_row, end_row + 1):
         for j in range(left_col, right_col + 1):
             if matrix[i][j] > 0:
