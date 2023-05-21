@@ -11,8 +11,8 @@ commands_cols = {
     'right': lambda x: x + 1 if x + 1 in range(size) else x
 }
 
-coal = len([y for x in range(size) for y in range(size) if matrix[x][y] == "c"])
-miner = next(([x, y] for x in range(size) for y in range(size) if matrix[x][y] == "s"))
+coal = sum(row.count('c') for row in matrix)
+miner = next([x, y] for x in range(size) for y in range(size) if matrix[x][y] == "s")
 
 while commands:
     action = commands.pop(0)
