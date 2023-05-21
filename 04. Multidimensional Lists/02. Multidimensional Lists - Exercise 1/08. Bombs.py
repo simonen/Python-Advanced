@@ -6,19 +6,20 @@ for k in input().split():
     damage = matrix[row][col]
     if damage <= 0:
         continue
+    matrix[row][col] = 0
     top_row = row - 1
     end_row = row + 1
     left_col = col - 1
     right_col = col + 1
-    matrix[row][col] = 0
-    if row < 1:
+
+    if row == 0:
         top_row = 0
-    if row == len(matrix) - 1:
-        end_row = len(matrix) - 1
-    if col < 1:
+    if row == size - 1:
+        end_row = size - 1
+    if col == 0:
         left_col = 0
-    if col == len(matrix[0]) - 1:
-        right_col = len(matrix[0]) - 1
+    if col == size - 1:
+        right_col = size - 1
 
     for i in range(top_row, end_row + 1):
         for j in range(left_col, right_col + 1):
