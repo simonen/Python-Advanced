@@ -3,7 +3,7 @@ def concatenate(*args, **string):
     for key in string:
         if key in args:
             args = args.replace(key, string[key])
-    return "".join(args)
+    return args
 
 
 # print(concatenate("Soft", "UNI", "Is", "Grate", "!",
