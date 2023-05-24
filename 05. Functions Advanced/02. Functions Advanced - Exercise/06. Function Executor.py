@@ -1,9 +1,7 @@
 def func_executor(*args):
     functions = []
-    for i in args:
-        func = i[0]
-        arguments = i[1]
-        functions.append(f"{func.__name__} - {func(*arguments)}")
+    for func, arg in args:
+        functions.append(f"{func.__name__} - {func(*arg)}")
 
     return '\n'.join(functions)
 
