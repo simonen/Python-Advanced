@@ -1,13 +1,12 @@
 def fill_the_box(height, length, width, *cubes):
     box_vol = height * length * width
     cubes = list(cubes)
-    while True:
-        if cubes[0] == "Finish":
-            break
+    while cubes[0] != "Finish":
         if cubes[0] > box_vol:
             cubes[0] -= box_vol
             box_vol = 0
             break
+
         cube = cubes.pop(0)
         box_vol -= cube
 
