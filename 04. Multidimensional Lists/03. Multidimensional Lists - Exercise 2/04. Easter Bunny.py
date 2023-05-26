@@ -2,7 +2,6 @@ size = int(input())
 matrix = [[j if j == 'B' or j == 'X' else int(j) for j in input().split()] for i in range(size)]
 
 bunny_x, bunny_y = next([i, j] for i in range(size) for j in range(size) if matrix[i][j] == "B")
-traps = [(i, j) for i in range(size) for j in range(size) if matrix[i][j] == "X"]
 book = {'up': [], 'down': [], 'left': [], 'right': []}
 positions = {'up': [], 'down': [], 'left': [], 'right': []}
 
@@ -36,7 +35,7 @@ for r in range(1, rights + 1):
     positions['right'].append([bunny_x, bunny_y + r])
 
 biggest = sorted(book.items(), key=lambda x: (-sum(x[1]), -len(x[1])))
-direct = biggest[0][0]
+direction = biggest[0][0]
 eggs = sum(biggest[0][1])
 
-print(direct, *positions[direct], eggs, sep='\n')
+print(direction, *positions[direction], eggs, sep='\n')
