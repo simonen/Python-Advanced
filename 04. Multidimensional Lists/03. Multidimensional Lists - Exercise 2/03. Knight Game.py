@@ -24,13 +24,7 @@ def moves(k_pos):
 rows = int(input())
 matrix = [[j for j in list(input())] for i in range(rows)]
 
-knights = []
-
-for i in range(rows):
-    for j in range(rows):
-        if matrix[i][j] == "K":
-            knights.append((i, j))
-
+knights = [(i, j) for i in range(rows) for j in range(rows) if matrix[i][j] == "K"]
 removed = 0
 
 while knights:
