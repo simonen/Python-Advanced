@@ -2,7 +2,6 @@ size = int(input())
 matrix = [[j if j == 'B' or j == 'X' else int(j) for j in input().split()] for i in range(size)]
 
 bunny_x, bunny_y = next([i, j] for i in range(size) for j in range(size) if matrix[i][j] == "B")
-
 traps = [(i, j) for i in range(size) for j in range(size) if matrix[i][j] == "X"]
 book = {'up': [], 'down': [], 'left': [], 'right': []}
 positions = {'up': [], 'down': [], 'left': [], 'right': []}
