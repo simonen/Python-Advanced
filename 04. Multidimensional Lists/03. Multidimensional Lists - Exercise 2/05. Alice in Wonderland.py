@@ -4,21 +4,17 @@ matrix = [[j for j in input().split()] for i in range(size)]
 bags = 0
 alice_x, alice_y = next([i, j] for j in range(size) for i in range(size) if matrix[i][j] == "A")
 matrix[alice_x][alice_y] = '*'
-commands_rows = {'up': lambda x: x - 1, 'down': lambda x: x + 1}
-commands_cols = {'left': lambda x: x - 1, 'right': lambda x: x + 1}
+directions = {'up': lambda x, y: (x - 1, y), 'down': lambda x, y: (x + 1, y),
+              'left': lambda x, y: (x, y - 1), 'right': lambda x, y: (x, y + 1)}
 
 command = input()
 
 while bags < 10:
-
-    if command in commands_rows:
-        alice_x = commands_rows[command](alice_x)
-    elif command in commands_cols:
-        alice_y = commands_cols[command](alice_y)
+    alice_x, alice_y = directions[command](alice_x, alice_y)
 
     is_exit = (
-        (alice_x not in range(0, size)) or
-        (alice_y not in range(0, size))
+            (alice_x not in range(0, size)) or
+            (alice_y not in range(0, size))
     )
     if not is_exit:
         if matrix[alice_x][alice_y].isdigit():
