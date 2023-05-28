@@ -13,7 +13,7 @@ good_kids = sum([i.count('V') for i in matrix])
 kids_left = good_kids
 
 command = input()
-while presents and command != "Christmas morning":
+while command != "Christmas morning":
     matrix[player_x][player_y] = '-'
     player_x, player_y = movement[command](player_x, player_y)
     current_pos = matrix[player_x][player_y]
@@ -32,8 +32,10 @@ while presents and command != "Christmas morning":
     presents -= len(visits)
     matrix[player_x][player_y] = "S"
 
-    if presents > 0:
-        command = input()
+    if presents <= 0:
+        break
+
+    command = input()
 
 if presents == 0 and kids_left > 0:
     print("Santa ran out of presents!")
