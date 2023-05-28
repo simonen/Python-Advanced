@@ -13,7 +13,6 @@ blind_x, blind_y = next([i, j] for j in range(cols) for i in range(rows) if matr
 
 command = input()
 while command != "Finish":
-
     p_x, p_y = movement[command](blind_x, blind_y)
     if p_x not in range(0, rows) or p_y not in range(0, cols) or matrix[p_x][p_y] == 'O':
         command = input()
