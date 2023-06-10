@@ -6,11 +6,11 @@ def flights(*args):
             break
 
         city = args[i]
-        passangers = int(args[i + 1])
+        passengers = int(args[i + 1])
 
         if city not in book:
             book[city] = 0
-        book[city] += passangers
+        book[city] += passengers
 
     return book
 
