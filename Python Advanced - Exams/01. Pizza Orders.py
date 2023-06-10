@@ -16,10 +16,9 @@ while orders and pizza_cap:
         pizzas += order
 
     elif order > employee:
-        if order <= 10:
-            order -= employee
-            pizzas += employee
-            orders.insert(0, order)
+        order -= employee
+        pizzas += employee
+        orders.insert(0, order)
 
 if not orders:
     print('All orders are successfully completed!')
