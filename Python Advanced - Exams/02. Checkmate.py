@@ -20,16 +20,15 @@ for queen in queens:
         q_x, q_y = queen
         for _ in range(size):
             p_x, p_y = movement[direction](q_x, q_y)
-            if p_x in range(size) and p_y in range(size):
-                hit = matrix[p_x][p_y]
-                if hit == 'Q':
-                    break
-                elif hit == 'K':
-                    killer_queens.append(queen)
-                    break
-                q_x, q_y = p_x, p_y
-            else:
+            if p_x not in range(size) or p_y not in range(size):
                 break
+            hit = matrix[p_x][p_y]
+            if hit == 'Q':
+                break
+            elif hit == 'K':
+                killer_queens.append(queen)
+                break
+            q_x, q_y = p_x, p_y
 
 if killer_queens:
     print(*killer_queens, sep='\n')
