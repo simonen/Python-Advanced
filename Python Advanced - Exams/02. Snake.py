@@ -30,7 +30,7 @@ while True:
     matrix[p_x][p_y] = 'S'
     snake_x, snake_y = p_x, p_y
 
-    if food >= 10:
+    if food == 10:
         print("You won! You fed the snake.")
         break
 
