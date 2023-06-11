@@ -6,17 +6,17 @@ def list_manipulator(numbers, command, position, *nums):
         res.extend(nums)
 
     elif command == "remove" and position == "beginning":
-        if len(nums) == 1:
+        if nums:
             begin = nums[0]
             res = res[begin:]
-        elif not nums:
+        else:
             res.pop(0)
 
     elif command == "remove" and position == "end":
-        if len(nums) == 1:
+        if nums:
             begin = nums[0]
             res = res[:-begin]
-        elif not nums:
+        else:
             res.pop()
 
     return res
