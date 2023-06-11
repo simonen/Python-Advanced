@@ -18,7 +18,7 @@ killer_queens = []
 for queen in queens:
     for direction in movement:
         q_x, q_y = queen
-        for move in range(size):
+        for _ in range(size):
             p_x, p_y = movement[direction](q_x, q_y)
             if p_x in range(size) and p_y in range(size):
                 hit = matrix[p_x][p_y]
