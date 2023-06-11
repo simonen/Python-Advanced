@@ -11,4 +11,5 @@ def get_magic_triangle(n):
 
     return triangle
 
+
 get_magic_triangle(7)
