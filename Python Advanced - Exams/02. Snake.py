@@ -1,6 +1,6 @@
 size = int(input())
 matrix = [[j for j in list(input())] for i in range(size)]
-# print(*matrix, sep='\n')
+
 movement = {
     'up': lambda x, y: (x - 1, y),
     'down': lambda x, y: (x + 1, y),
@@ -10,7 +10,6 @@ movement = {
 
 snake_x, snake_y = next([i, j] for i in range(size) for j in range(size) if matrix[i][j] == 'S')
 burrows = [[i, j] for i in range(size) for j in range(size) if matrix[i][j] == 'B']
-
 food = 0
 
 while True:
@@ -34,9 +33,6 @@ while True:
     if food >= 10:
         print("You won! You fed the snake.")
         break
-
-    # print("----")
-    # print(*matrix, sep='\n')
 
 print(f"Food eaten: {food}")
 
