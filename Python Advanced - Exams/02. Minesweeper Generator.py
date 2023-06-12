@@ -1,3 +1,9 @@
+def mine_check(t_x, t_y):
+    if t_x not in range(size) or t_y not in range(size) or (t_x, t_y) not in bomb_pos:
+        return 0
+    return 1
+
+
 size = int(input())
 bomb_pos = [tuple(map(int, input().strip("()").split(", "))) for _ in range(int(input()))]
 matrix = [['-' for j in range(size)] for i in range(size)]
@@ -21,8 +27,7 @@ for i in range(size):
             continue
         for direction in movement:
             p_x, p_y = movement[direction](i, j)
-            if p_x in range(size) and p_y in range(size) and (p_x, p_y) in bomb_pos:
-                near_bombs += 1
+            near_bombs += mine_check(p_x, p_y)
 
         matrix[i][j] = str(near_bombs)
 
