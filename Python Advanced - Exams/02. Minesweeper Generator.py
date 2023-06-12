@@ -18,13 +18,13 @@ for i in range(size):
         near_bombs = 0
         if (i, j) in bomb_pos:
             matrix[i][j] = '*'
-        else:
-            for direction in movement:
-                p_x, p_y = movement[direction](i, j)
-                if p_x in range(size) and p_y in range(size) and (p_x, p_y) in bomb_pos:
-                    near_bombs += 1
+            continue
+        for direction in movement:
+            p_x, p_y = movement[direction](i, j)
+            if p_x in range(size) and p_y in range(size) and (p_x, p_y) in bomb_pos:
+                near_bombs += 1
 
-            matrix[i][j] = str(near_bombs)
+        matrix[i][j] = str(near_bombs)
 
 for i in matrix:
     print(*i, sep=' ')
