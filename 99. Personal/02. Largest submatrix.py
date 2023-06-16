@@ -25,6 +25,7 @@ def biggest_submatrix(submatrices):
             biggest_sum = matrix_sum
             largest_matrix = sub_matrix
 
+    print(biggest_sum)
     return largest_matrix
 
 
@@ -32,7 +33,7 @@ size = 6
 sub_size = 5
 
 matrix = [
-    [1, 2, 15, 1, 3, 4],
+    [1, 2, 3, 1, 3, 4],
     [5, 3, 0, 1, 2, 9],
     [2, 3, 1, 8, 6, 2],
     [0, 1, 4, 5, 8, 1],
