@@ -12,8 +12,7 @@ def matrix_subdivide(matrix, subsize):
 
 
 size = 6
-
-# matrix = [['1'] * size for i in range(size)]
+sub_size = 5
 matrix = [
     ['1', 'R', 'T', 'Y', '1', '1'],
     ['1', 'W', '0', '2', '1', '1'],
@@ -22,9 +21,9 @@ matrix = [
     ['1', 'A', 'B', 'C', '1', '1'],
     ['1', '1', '1', '1', '1', '1'],
 ]
+
 print(*matrix, sep='\n')
 print()
-sub_size = 5
 
 for z in matrix_subdivide(matrix, sub_size):
     print(*z, sep='\n')
