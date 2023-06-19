@@ -1,7 +1,9 @@
 size = 3
 matrix = [[i, i + 1, i + 2] for i in range(1, 10, 3)]
 
-print(*matrix, sep='\n')
+for i in matrix:
+    print(f"| {' | '.join(map(str, i))} |")
+
 player1, player2 = [['Xopxe', 'X'], ['Mopxe', 'O']]
 symbols = ['X', 'O']
 turns = 9
@@ -11,7 +13,7 @@ while True:
     row = (position - 1) // size
     col = (position - 1) % size
 
-    if matrix[row][col] in symbols:
+    if matrix[row][col] in symbols and player1[0] != 'Xopxe':
         print('Select a valid position!')
         continue
 
