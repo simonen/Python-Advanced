@@ -1,5 +1,5 @@
 def print_stars(size, star_count):
-    print(' ' * (size - star_count), end='')
+    print(void * (size - star_count), end='')
     print(*[symbol] * star_count)
 
 
@@ -20,5 +20,5 @@ def rhombus(size):
 
 n = int(input())
 symbol = '*'
-
+void = ' '
 rhombus(n)
