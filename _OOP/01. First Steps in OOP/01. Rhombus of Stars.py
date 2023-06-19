@@ -1,5 +1,6 @@
 def print_stars(size, star_count):
-    print(void * (size - star_count), *[symbol] * star_count, void * (size - star_count))
+    print(void * (size - star_count), end='')
+    print(*[symbol] * star_count)
 
 
 def top_triangle(size):
