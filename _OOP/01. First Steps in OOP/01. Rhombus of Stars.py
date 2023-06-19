@@ -19,6 +19,6 @@ def rhombus(size):
 
 
 n = int(input())
-symbol = input()
+symbol = '*'
 
 rhombus(n)
