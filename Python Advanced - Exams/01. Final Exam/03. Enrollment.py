@@ -14,13 +14,7 @@ def gather_credits(credits_needed, *args):
 
 
 print(gather_credits(
-    3,
-
-))
-
-print("------------------")
-print(gather_credits(
-    80,
+    0,
     ("Advanced", 30),
     ("Basics", 27),
     ("Fundamentals", 27),
