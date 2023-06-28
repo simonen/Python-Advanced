@@ -20,6 +20,7 @@ class Smartphone:
 
         self.apps.append(app)
         self.memory -= app_memory
+
         return f"Installing {app}"
 
     def status(self):
