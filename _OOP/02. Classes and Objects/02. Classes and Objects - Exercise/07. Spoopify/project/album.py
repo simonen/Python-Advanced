@@ -41,3 +41,17 @@ class Album:
 
     def details(self):
         return f"Album {self.name}\n" + '\n'.join(f"== {song.get_info()}" for song in self.songs)
+
+
+    # def remove_song(self, song_name: str):
+    #     try:
+    #         song = next(filter(lambda x: x.name == song_name, self.songs))
+    #     except StopIteration:
+    #         return "Song is not in the album."
+    #
+    #     if self.published:
+    #         return "Cannot remove songs. Album is published."
+    #
+    #     self.songs.remove(song)
+    #     return f"Removed song {song_name} from album {self.name}."
+
