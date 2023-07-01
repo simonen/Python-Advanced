@@ -16,6 +16,7 @@ class Library:
         if author in self.books_available and book_name in self.books_available[author]:
             if user.username not in self.rented_books:
                 self.rented_books[user.username] = {}
+
             self.rented_books[user.username].update({book_name: days_to_return})
             self.books_available[author].pop(self.books_available[author].index(book_name))
             user.books.append(book_name)
