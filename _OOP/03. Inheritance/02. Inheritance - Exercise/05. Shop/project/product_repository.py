@@ -3,17 +3,17 @@ from project.product import Product
 
 class ProductRepository:
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.products = []
 
-    def add(self, product: Product):
+    def add(self, product: Product) -> None:
         self.products.append(product)
 
-    def find(self, product_name: str):
+    def find(self, product_name: str) -> Product or None:
         prod = next(filter(lambda x: x.name if x.name == product_name else None, self.products))
         return prod
 
-    def remove(self, product_name: str):
+    def remove(self, product_name: str) -> None:
         try:
             prod = next(filter(lambda x: x.name == product_name, self.products))
             self.products.remove(prod)
