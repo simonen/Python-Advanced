@@ -22,4 +22,3 @@ class Team:
             return player
         except StopIteration:
             return f"Player {player_name} not found"
-
