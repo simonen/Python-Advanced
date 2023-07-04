@@ -18,4 +18,3 @@ class Player:
     def __str__(self):
         return '\n'.join([f"Player: {self.name}", f"Sprint: {self.__sprint}", f"Dribble: {self.__dribble}",
                           f"Passing: {self.__passing}", f"Shooting: {self.__shooting}"])
-
