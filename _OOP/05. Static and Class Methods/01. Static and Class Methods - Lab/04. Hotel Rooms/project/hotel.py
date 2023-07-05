@@ -19,6 +19,7 @@ class Hotel:
         room = next(r for r in self.rooms if r.number == room_number)
         if room.take_room(people) is None:
             self.guests += people
+
         return room.take_room(people)
 
     def free_room(self, room_number):
