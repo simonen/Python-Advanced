@@ -1,15 +1,15 @@
 class Equipment:
 
-    id = 0
+    id = 1
 
     def __init__(self, name: str) -> None:
         self.name = name
-        self.equipment_id = Equipment.get_next_id()
+        self.id = Equipment.id
+        Equipment.id += 1
 
     @staticmethod
     def get_next_id():
-        Equipment.id += 1
         return Equipment.id
 
     def __repr__(self):
-        return f"Equipment <{self.equipment_id}> {self.name}"
+        return f"Equipment <{self.id}> {self.name}"

@@ -36,10 +36,10 @@ class Gym:
             self.subscriptions.append(subscription)
 
     def subscription_info(self, subscription_id: int) -> str:
-        subscription = next(x for x in self.subscriptions if x.subscription_id == subscription_id)
-        customer = next(x for x in self.customers if x.customer_id == subscription_id)
-        trainer = next(x for x in self.trainers if x.trainer_id == subscription_id)
-        equipment = next(x for x in self.equipment if x.equipment_id == subscription_id)
-        plan = next(x for x in self.plans if x.plan_id == subscription_id)
+        subscription = next(x for x in self.subscriptions if x.id == subscription_id)
+        customer = next(x for x in self.customers if x.id == subscription_id)
+        trainer = next(x for x in self.trainers if x.id == subscription_id)
+        equipment = next(x for x in self.equipment if x.id == subscription_id)
+        plan = next(x for x in self.plans if x.id == subscription_id)
 
         return f"{subscription}\n{customer}\n{trainer}\n{equipment}\n{plan}"
