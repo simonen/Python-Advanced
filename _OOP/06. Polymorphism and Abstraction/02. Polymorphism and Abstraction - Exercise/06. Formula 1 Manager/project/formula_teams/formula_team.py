@@ -21,4 +21,3 @@ class FormulaTeam(ABC):
     def calculate_revenue_after_race(self, race_pos: int):
         pass
 
-
