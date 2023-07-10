@@ -27,6 +27,7 @@ class F1SeasonApp:
 
         rb_revenue_msg = self.red_bull_team.calculate_revenue_after_race(red_bull_pos)
         me_revenue_msg = self.mercedes_team.calculate_revenue_after_race(mercedes_pos)
+        leading_team = 'Red Bull' if red_bull_pos < mercedes_pos else 'Mercedes'
 
         return f"Red Bull: {rb_revenue_msg}. Mercedes: {me_revenue_msg}." \
-               f"{'Red Bull' if red_bull_pos < mercedes_pos else 'Mercedes'} is ahead at the {race_name} race."
+               f" {leading_team} is ahead at the {race_name} race."
