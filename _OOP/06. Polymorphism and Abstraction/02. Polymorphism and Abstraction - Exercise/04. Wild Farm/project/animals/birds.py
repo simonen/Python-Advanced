@@ -1,26 +1,33 @@
 from abc import ABC, abstractmethod
 from project.animals.animal import Bird
+from project.food import Food, Vegetable, Fruit, Meat, Seed
 
 
 class Owl(Bird):
 
-    def make_sound(self):
+    @staticmethod
+    def make_sound() -> str:
         return "Hoot Hoot"
 
-    def feed(self, food):
-        food_given = food.__class__.__name__
-        if food_given != 'Meat':
-            return f"{self.__class__.__name__} does not eat {food_given}!"
+    @property
+    def foods(self) -> list:
+        return [Meat]
 
-        self.weight += food.quantity * 0.25
-        self.food_eaten += food.quantity
+    @property
+    def weight_gain(self) -> float:
+        return 0.25
 
 
 class Hen(Bird):
 
-    def make_sound(self):
+    @staticmethod
+    def make_sound() -> str:
         return "Cluck"
 
-    def feed(self, food):
-        self.weight += food.quantity * 0.35
-        self.food_eaten += food.quantity
+    @property
+    def foods(self) -> list:
+        return [Vegetable, Meat, Seed, Fruit]
+
+    @property
+    def weight_gain(self) -> float:
+        return 0.35

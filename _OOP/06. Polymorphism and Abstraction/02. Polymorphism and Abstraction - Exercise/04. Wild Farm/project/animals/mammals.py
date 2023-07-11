@@ -8,52 +8,56 @@ cat_food = ['Vegetable', 'Meat']
 
 
 class Mouse(Mammal):
-    def make_sound(self) -> str:
+    @staticmethod
+    def make_sound() -> str:
         return "Squeak"
 
-    def feed(self, food: Food):
-        food_given = food.__class__.__name__
-        if food_given not in mice_food:
-            return f"{self.__class__.__name__} does not eat {food_given}!"
+    @property
+    def foods(self) -> list:
+        return [Vegetable, Fruit]
 
-        self.weight += food.quantity * 0.1
-        self.food_eaten += food.quantity
+    @property
+    def weight_gain(self) -> float:
+        return 0.1
 
 
 class Dog(Mammal):
-    def make_sound(self):
+    @staticmethod
+    def make_sound():
         return "Woof!"
 
-    def feed(self, food):
-        food_given = food.__class__.__name__
-        if food_given != 'Meat':
-            return f"{self.__class__.__name__} does not eat {food_given}!"
+    @property
+    def foods(self) -> list:
+        return [Meat]
 
-        self.weight += food.quantity * 0.4
-        self.food_eaten += food.quantity
+    @property
+    def weight_gain(self) -> float:
+        return 0.4
 
 
 class Cat(Mammal):
-    def make_sound(self):
+    @staticmethod
+    def make_sound():
         return "Meow"
 
-    def feed(self, food):
-        food_given = food.__class__.__name__
-        if food_given not in cat_food:
-            return f"{self.__class__.__name__} does not eat {food_given}!"
+    @property
+    def foods(self) -> list:
+        return [Vegetable, Meat]
 
-        self.weight += food.quantity * 0.3
-        self.food_eaten += food.quantity
+    @property
+    def weight_gain(self) -> float:
+        return 0.30
 
 
 class Tiger(Mammal):
-    def make_sound(self):
+    @staticmethod
+    def make_sound():
         return "ROAR!!!"
 
-    def feed(self, food):
-        food_given = food.__class__.__name__
-        if food_given != 'Meat':
-            return f"{self.__class__.__name__} does not eat {food_given}!"
+    @property
+    def foods(self) -> list:
+        return [Meat]
 
-        self.weight += food.quantity
-        self.food_eaten += food.quantity
+    @property
+    def weight_gain(self) -> float:
+        return 1.00
