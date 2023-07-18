@@ -2,8 +2,7 @@ from itertools import permutations
 
 
 def possible_permutations(args: list):
-    perm = permutations(args)
-    for i in perm:
+    for i in permutations(args):
         yield list(i)
 
 
