@@ -5,12 +5,10 @@ def solution():
             yield start
             start += 1
 
-    # TODO: Implement
     def halves():
         for i in integers():
             yield i / 2
 
-    # TODO: Implement
     def take(n, seq):
         count = 0
         result = []
@@ -21,7 +19,7 @@ def solution():
             count += 1
         return result
 
-    return (take, halves, integers)
+    return take, halves, integers
 
 
 take = solution()[0]
