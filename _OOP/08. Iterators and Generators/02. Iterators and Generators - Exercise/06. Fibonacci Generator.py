@@ -1,16 +1,12 @@
 def fibonacci():
-    nums = [0, 1]
-    i = 0
-    count = 0
+    n1, n2 = [0, 1]
+
     while True:
-        if i < 2:
-            yield nums[i]
-            count += 1
-        nums.append(sum(nums[i:i + 2]))
-        yield sum(nums[i:i + 2])
-        i += 1
+        yield n1
+
+        n1, n2 = n2, n1 + n2
 
 
 generator = fibonacci()
-for i in range(20):
+for i in range(22220):
     print(next(generator))
