@@ -17,10 +17,20 @@ class dictionary_iter:
         return list(self.dictionary.items())[self.index]
 
 
-result = dictionary_iter({1: "1", 2: "2"})
+### Alternatively
+
+class dictionary_iterator:
+    def __init__(self, dictionary: dict):
+        self.dictionary = dictionary
+
+    def __iter__(self):
+        return iter(self.dictionary.items())
+
+
+result = dictionary_iterator({1: "1", 2: "2"})
 for x in result:
     print(x)
 
-result = dictionary_iter({"name": "Peter", "age": 24})
+result = dictionary_iterator({"name": "Peter", "age": 24})
 for x in result:
     print(x)
