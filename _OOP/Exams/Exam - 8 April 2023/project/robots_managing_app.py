@@ -61,23 +61,18 @@ class RobotsManagingApp:
     def feed_all_robots_from_service(self, service_name: str) -> str:
         service = next(s for s in self.services if s.name == service_name)
         robots = [r for r in service.robots]
-        for bot in robots:
-            bot.eating()
+        [bot.eating() for bot in robots]
 
         return f"Robots fed: {len(robots)}."
 
     def service_price(self, service_name: str) -> str:
-        price = 0
+
         service = next(s for s in self.services if s.name == service_name)
-        robots = [r for r in service.robots]
-        for robot in robots:
-            price += robot.price
+        price = sum(robot.price for robot in service.robots)
 
         return f"The value of service {service_name} is {price:.2f}."
 
     def __str__(self) -> str:
-        res = []
-        for service in self.services:
-            res.append(service.details())
+        res = [service.details() for service in self.services]
 
         return '\n'.join(res)
