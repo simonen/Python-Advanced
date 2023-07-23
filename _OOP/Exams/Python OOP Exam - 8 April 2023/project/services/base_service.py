@@ -44,4 +44,3 @@ class BaseService(ABC):
         self.__capacity -= 1
         if self.__capacity < 0:
             self.__capacity = 0
-
