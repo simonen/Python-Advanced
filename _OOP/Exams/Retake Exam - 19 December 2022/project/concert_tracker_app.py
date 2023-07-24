@@ -51,19 +51,13 @@ class ConcertTrackerApp:
         if not musician:
             raise Exception(f"{musician_name} isn't a musician!")
 
-        band = next((b for b in self.bands if b.name == band_name), None)
-        if not band:
-            raise Exception(f"{band_name} isn't a band!")
-
+        band = self.valid_band(band_name)
         band.members.append(musician)
 
         return f"{musician_name} was added to {band_name}."
 
     def remove_musician_from_band(self, musician_name: str, band_name: str) -> str or None:
-        band = next((b for b in self.bands if b.name == band_name), None)
-        if not band:
-            raise Exception(f"{band_name} isn't a band!")
-
+        band = self.valid_band(band_name)
         musician = next((m for m in band.members if m.name == musician_name), None)
         if not musician:
             raise Exception(f"{musician_name} isn't a member of {band_name}!")
@@ -90,5 +84,9 @@ class ConcertTrackerApp:
         return f"{band_name} gained {((concert.audience * concert.ticket_price) - concert.expenses):.2f}$" \
                f" from the {concert.genre} concert in {concert_place}."
 
-    # def valid_band(self):
-    #     band = next((b for b in self.bands if b.name == band_name), None)
+    def valid_band(self, band_name):
+        band = next((b for b in self.bands if b.name == band_name), None)
+        if not band:
+            raise Exception(f"{band_name} isn't a band!")
+
+        return band
