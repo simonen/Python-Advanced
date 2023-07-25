@@ -29,4 +29,3 @@ class Jockey:
             raise ValueError("Jockeys must be at least 18 to participate in the race!")
 
         self.__age = value
-
