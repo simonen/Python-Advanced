@@ -84,7 +84,7 @@ class HorseRaceApp:
             raise Exception(f"Horse race {race_type} needs at least two participants!")
 
         jockeys = [j for j in horse_race.jockeys]
-        winner = max(jockeys, key=lambda x: x.horse.speed)
+        winner = max(jockeys, key=lambda j: j.horse.speed)
 
         return f"The winner of the {race_type} race, with a speed of {winner.horse.speed}km/h is " \
                f"{winner.name}! Winner's horse: {winner.horse.name}."
