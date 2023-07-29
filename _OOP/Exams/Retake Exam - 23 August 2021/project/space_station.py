@@ -80,6 +80,7 @@ class SpaceStation:
     def report(self) -> str:
         res = [f"{self.complete} successful missions!",
                f"{self.incomplete} missions were not completed!", "Astronauts' info:"]
+
         for astro in self.astronaut_repository.astronauts:
             res.extend(astro.details())
 
