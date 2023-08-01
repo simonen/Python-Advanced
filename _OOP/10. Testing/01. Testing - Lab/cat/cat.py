@@ -36,9 +36,7 @@ class CatTests(unittest.TestCase):
 
     def test_car_fed_after_eat(self):
         self.cat.eat()
-        res = self.cat.fed
-        exp_res = True
-        self.assertEqual(exp_res, res)
+        self.assertTrue(self.cat.fed)
 
     def test_cat_eat_after_fed(self):
         self.cat.fed = True
@@ -54,13 +52,9 @@ class CatTests(unittest.TestCase):
         self.assertEqual('Cannot sleep while hungry', str(ex.exception.args[0]))
 
     def test_cat_not_sleepy_sleep(self):
-        # start = self.cat.sleepy
         self.cat.eat()
         self.cat.sleep()
         self.assertFalse(self.cat.sleepy)
-        # res = self.cat.sleepy
-        # exp_res = False
-        # self.assertEqual(exp_res, res)
 
 
 if __name__ == '__main__':
