@@ -5,7 +5,7 @@ from project.route import Route
 from project.managing_app import ManagingApp
 
 app = ManagingApp()
-print(app.register_user( 'Tisha', 'Reenie', '7246506' ))
+print(app.register_user( 'poi', 'Reenie', '7246506' ))
 print(app.register_user( 'Bernard', 'Remy', 'CDYHVSR68661'))
 print(app.register_user( 'Mack', 'Cindi', '7246506'))
 print(app.upload_vehicle('PassengerCar', 'Chevrolet', 'Volt', 'CWP8032'))

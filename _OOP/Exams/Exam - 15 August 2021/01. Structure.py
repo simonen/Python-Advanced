@@ -68,3 +68,4 @@ table4.reserve(4)
 print(table4)
 
 print(table4.free_table_info())
+print()

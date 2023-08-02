@@ -65,33 +65,30 @@ class Bakery:
         table.reserve(number_of_people)
         return f"Table {table.table_number} has been reserved for {number_of_people} people"
 
-    def order_food(self, table_number: int, *foods):
+    def order_item(self, table_number, *items, item_type: str):
+        menu = {
+            'food': [self.food_menu, lambda: table.order_food(product) if product else not_present.append(item)],
+            'drink': [self.drinks_menu, lambda: table.order_drink(product) if product else not_present.append(item)]
+        }
+
         table = next((t for t in self.tables_repository if t.table_number == table_number), None)
         if not table:
             return f"Could not find table {table_number}"
 
         not_present = []
-        for item in foods:
-            food = next((f for f in self.food_menu if f.name == item), None)
-            table.order_food(food) if food else not_present.append(item)
+        for item in items:
+            product = next((p for p in menu[item_type][0] if p.name == item), None)
+            menu[item_type][1]()
 
-        ordered_foods = '\n'.join(map(str, table.food_orders))
+        ordered_foods = '\n'.join(map(str, table.food_orders if item_type == 'food' else table.drink_orders))
         not_ordered = '\n'.join(not_present)
         return f"Table {table_number} ordered:\n{ordered_foods}\n{self.name} does not have in the menu:\n{not_ordered}"
 
+    def order_food(self, table_number: int, *foods):
+        return self.order_item(table_number, *foods, item_type='food')
+
     def order_drink(self, table_number: int, *drinks):
-        table = next((t for t in self.tables_repository if t.table_number == table_number), None)
-        if not table:
-            return f"Could not find table {table_number}"
-
-        not_present = []
-        for item in drinks:
-            drink = next((d for d in self.drinks_menu if d.name == item), None)
-            table.order_drink(drink) if drink else not_present.append(item)
-
-        ordered_drinks = '\n'.join(map(str, table.drink_orders))
-        not_ordered = '\n'.join(not_present)
-        return f"Table {table_number} ordered:\n{ordered_drinks}\n{self.name} does not have in the menu:\n{not_ordered}"
+        return self.order_item(table_number, *drinks, item_type='drink')
 
     def leave_table(self, table_number: int):
         table = next((t for t in self.tables_repository if t.table_number == table_number), None)
