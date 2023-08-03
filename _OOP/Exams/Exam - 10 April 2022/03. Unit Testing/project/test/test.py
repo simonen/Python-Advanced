@@ -59,9 +59,9 @@ class MovieTest(TestCase):
         self.movie.actors = ['Keano', 'Meano']
         res = self.movie.__repr__()
         exp_res = f"Name: Matrix\n" \
-               f"Year of Release: 1999\n" \
-               f"Rating: 9.12\n" \
-               f"Cast: Keano, Meano"
+                  f"Year of Release: 1999\n" \
+                  f"Rating: 9.12\n" \
+                  f"Cast: Keano, Meano"
 
         self.assertEqual(res, exp_res)
 
