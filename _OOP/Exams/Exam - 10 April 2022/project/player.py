@@ -50,10 +50,3 @@ class Player:
 
     def __str__(self) -> str:
         return f"Player: {self.name}, {self.age}, {self.stamina}, {self.need_sustenance}"
-
-    def stamina_floor(self):
-        self.__stamina = 0
-
-    def stamina_ceil(self):
-        self.__stamina = 100
-
