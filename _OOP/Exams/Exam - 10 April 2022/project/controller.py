@@ -25,7 +25,7 @@ class Controller:
     def sustain(self, player_name: str, sustenance_type: str):
         player = next((p for p in self.players if p.name == player_name), None)
         if not player or sustenance_type not in ['Food', 'Drink']:
-            return None
+            return
 
         if player.stamina == 100:
             return f"{player_name} have enough stamina."
@@ -34,10 +34,7 @@ class Controller:
         if not item:
             raise Exception(f"There are no {sustenance_type.lower()} supplies left!")
 
-        if player.stamina + item.energy > 100:
-            player.stamina_ceil()
-        else:
-            player.stamina += item.energy
+        player.stamina = min(player.stamina + item.energy, 100)
 
         index = self.supplies[::-1].index(item)
         self.supplies.pop(-index - 1)
@@ -66,20 +63,14 @@ class Controller:
 
     def next_day(self):
         for player in self.players:
-            if player.stamina - (player.age * 2) < 0:
-                player.stamina_floor()
-            else:
-                player.stamina -= (player.age * 2)
+            player.stamina = max(player.stamina - (player.age * 2), 0)
 
             for food_type in ['Food', 'Drink']:
                 item = next((i for i in self.supplies[::-1] if i.__class__.__name__ == food_type), None)
                 if not item:
                     continue
 
-                if player.stamina + item.energy > 100:
-                    player.stamina_ceil()
-                else:
-                    player.stamina += item.energy
+                player.stamina = min(player.stamina + item.energy, 100)
 
                 index = self.supplies[::-1].index(item)
                 self.supplies.pop(-index - 1)
