@@ -120,5 +120,6 @@ class PetShopTest(TestCase):
 
         self.assertEqual(res, exp_res)
 
+
 if __name__ == '__main__':
     main()
