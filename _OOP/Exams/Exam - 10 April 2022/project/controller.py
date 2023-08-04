@@ -53,7 +53,7 @@ class Controller:
         players = sorted([first_player, second_player], key=lambda x: x.stamina)
         for _ in range(2):
             if players[1].stamina - (players[0].stamina / 2) <= 0:
-                players[1].stamina_floor()
+                players[1].stamina = 0
                 break
 
             players[1].stamina -= (players[0].stamina / 2)
