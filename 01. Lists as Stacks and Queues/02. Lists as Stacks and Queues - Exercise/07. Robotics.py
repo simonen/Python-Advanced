@@ -1,35 +1,36 @@
+from collections import deque
+
+
+def time_convert(time_s: int) -> str:
+    ss = int(time_s) % 60
+    hh = int(time_s) // 3600 % 24
+    mm = int(time_s) // 60 % 60
+    return f"{hh:0>2}:{mm:0>2}:{ss:0>2}"
+
 robots = input().split(";")
+busy_robots = {x.split("-")[0]: 0 for x in robots}
 start_time = input().split(":")
+total_seconds = int(start_time[0]) * 3600 + int(start_time[1]) * 60 + int(start_time[2])
+product_queue = deque()
 
 command = input()
-product_queue = []
 while command != 'End':
-    product = command
-    product_queue.append(product)
+    product_queue.append(command)
     command = input()
 
-busy_robots = {x.split("-")[0]: 0 for x in robots}
-hh, mm, ss = start_time
-total_seconds = int(hh) * 3600 + int(mm) * 60 + int(ss)
-
-while len(product_queue) > 0:
+while product_queue:
     total_seconds += 1
-    hh = (total_seconds // 3600) % 24
-    mm = (total_seconds // 60) % 60
-    ss = total_seconds % 60
+    product = product_queue.popleft()
 
     for key in busy_robots:
-        if busy_robots[key] != 0:
+        if busy_robots[key] > 0:
             busy_robots[key] -= 1
 
-    product = product_queue.pop(0)
-    for x in robots:
-        index = robots.index(x)
-        name = robots[index].split("-")[0]
-        processing = int(robots[index].split("-")[1])
+    for i, robot in enumerate(robots):
+        name, processing = robots[i].split("-")
         if busy_robots[name] == 0:
-            busy_robots[name] = processing
-            print(f"{name} - {product} [{hh:0>2}:{mm:0>2}:{ss:0>2}]")
+            busy_robots[name] = int(processing)
+            print(f"{name} - {product} [{time_convert(total_seconds)}]")
             break
     else:
         product_queue.append(product)
