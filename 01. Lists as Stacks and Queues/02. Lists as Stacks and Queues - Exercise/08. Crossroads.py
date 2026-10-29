@@ -1,39 +1,42 @@
-green_free = [int(input()), int(input())]
+from collections import deque
+
+
+green_light, free_window = int(input()), int(input())
 command = input()
-cars = []
-passed = 0
-green = 0
-window = 0
+car_queue = deque()
+crashes = []
+transiting = []
+cars_passed = []
 
-while command != 'END':
-    if command != 'green':
-        cars.append(command)
+while command != "END":
+    if command != "green":
+        car_queue.append(command)
         command = input()
         continue
 
-    green, window = green_free
-    rem = ''
-    car = ''
-    while green > 0 and len(cars) > 0:
-        car = cars[0]
-        cars[0] = cars[0][green:]
-        green -= len(car)
-        if cars[0] == '':
-            passed += 1
-        rem = cars.pop(0)
+    green_timer = green_light
+    free_timer = free_window
 
-    if rem == '':
-        command = input()
-        continue
+    while green_timer > 0 and car_queue:
+        car = car_queue.popleft()
+        if len(car) <= green_timer:
+            cars_passed.append(car)
+            green_timer -= len(car)
+        else:
+            transiting.append(car)
 
-    if rem[window:] != '':
-        hit = rem[window:][0]
-        print("A crash happened!\n"
-              f'{car} was hit at {hit}.')
-        break
+    if transiting:
+        free_timer += green_timer
+        if len(car) <= free_timer:
+            cars_passed.append(car)
+            transiting = []
+        else:
+            hit = car[free_timer]
+            crashes.append((car, hit))
+            print(f"A crash happened!\n{car} was hit at {hit}.")
+            break
 
-    passed += 1
     command = input()
-else:
-    print("Everyone is safe.")
-    print(f"{passed} total cars passed the crossroads.")
+
+if not crashes:
+    print(f"Everyone is safe.\n{len(cars_passed)} total cars passed the crossroads.")
