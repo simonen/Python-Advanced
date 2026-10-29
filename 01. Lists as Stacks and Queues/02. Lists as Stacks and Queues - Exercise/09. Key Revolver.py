@@ -1,27 +1,28 @@
+from collections import  deque
+
+
 bullet_price = int(input())
 barrel_size = int(input())
-bullets = input().split()
-locks = input().split()
+bullets = deque(list(map(int, input().split())))
+locks = deque(list(map(int, input().split())))
 value = int(input())
+loaded_bullets = min(barrel_size, len(bullets))
 
-rounds = barrel_size
-shots = 0
 while bullets and locks:
     bullet = bullets.pop()
-    rounds -= 1
-    shots += 1
-
-    if int(bullet) > int(locks[0]):
-        print("Ping!")
-    else:
+    value -= bullet_price
+    loaded_bullets -= 1
+    if bullet <= locks[0]:
+        locks.popleft()
         print("Bang!")
-        locks.pop(0)
+    else:
+        print("Ping!")
 
-    if rounds == 0 and len(bullets) > 0:
+    if loaded_bullets == 0 and bullets:
         print("Reloading!")
-        rounds = barrel_size
+        loaded_bullets = min(barrel_size, len(bullets))
 
 if locks:
     print(f"Couldn't get through. Locks left: {len(locks)}")
 else:
-    print(f"{len(bullets)} bullets left. Earned ${value - shots * bullet_price}")
+    print(f"{len(bullets)} bullets left. Earned ${value}")
