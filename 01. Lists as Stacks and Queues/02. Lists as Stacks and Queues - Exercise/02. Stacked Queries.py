@@ -1,19 +1,19 @@
-stack =[]
-for i in range(int(input())):
-    query = input()
-    if '1' in query:
-        number = int(query.split()[1])
-        stack.append(number)
-    elif query == '2' and len(stack) > 0:
+from collections import deque
+
+stack = deque()
+n = int(input())
+for _ in range(n):
+    command = input()
+    if command[0] == "1":
+        stack.append(command.split()[1])
+    if not stack:
+        continue
+    if command[0] == "2":
         stack.pop()
-    elif query == "3" and len(stack) > 0:
-        print(max(stack))
-    elif query == "4" and len(stack) > 0:
-        print(min(stack))
+    elif command[0] == "3":
+        print(max(int(x) for x in stack))
+    elif command[0] == "4":
+        print(min(int(x) for x in stack))
 
-stack = list(map(str, stack))
-stack2 = []
-for _ in range(len(stack)):
-    stack2.append(stack.pop())
-
-print(", ".join(stack2))
+res = [stack.pop() for _ in range(len(stack))]
+print(", ".join(res))

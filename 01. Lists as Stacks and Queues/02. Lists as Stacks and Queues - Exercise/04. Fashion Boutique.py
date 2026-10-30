@@ -1,14 +1,14 @@
 clothes = input().split()
-rack_cap = int(input())
 
-racks = 1
-rack = rack_cap
+rack = 1
+start_capacity = int(input())
+curr_capacity = start_capacity
+
 while clothes:
-    if rack >= int(clothes[-1]):
-        cloth = int(clothes.pop())
-        rack -= cloth
+    if int(clothes[-1]) <= curr_capacity:
+        curr_capacity -= int(clothes.pop())
     else:
-        rack = rack_cap
-        racks += 1
+        rack += 1
+        curr_capacity = start_capacity
 
-print(racks)
+print(rack)
