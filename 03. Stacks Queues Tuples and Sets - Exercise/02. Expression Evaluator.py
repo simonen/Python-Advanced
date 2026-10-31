@@ -12,7 +12,7 @@ funcs = {"+": lambda *args: sum(args),
 
 curr_res = None
 start = 0
-args = []
+num_args = []
 last_res = []
 
 for i in range(len(numbers)):
@@ -20,8 +20,8 @@ for i in range(len(numbers)):
 
     if numbers[i] in operators:
         curr_operator = numbers[i]
-        args = last_res + list(map(int, numbers[start:i]))
+        num_args = last_res + list(map(int, numbers[start:i]))
         start = i + 1
-        curr_res = funcs[curr_operator](*args)
+        curr_res = funcs[curr_operator](*num_args)
 
 print(curr_res)
