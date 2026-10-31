@@ -16,7 +16,7 @@ args = []
 last_res = []
 
 for i in range(len(numbers)):
-    last_args = [curr_res] if curr_res is not None else []
+    last_res = [curr_res] if curr_res is not None else []
 
     if numbers[i] in operators:
         curr_operator = numbers[i]
