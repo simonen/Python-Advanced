@@ -1,23 +1,21 @@
-line1 = set(map(int, input().split()))
-line2 = set(map(int, input().split()))
+seq1 = set(map(int, input().split()))
+seq2 = set(map(int, input().split()))
+
+funcs = {"Add First": lambda s, y: s.update(y),
+        "Add Second": lambda s, y: s.update(y),
+        "Remove First": lambda s, y: s.difference_update(y),
+        "Remove Second": lambda s, y: s.difference_update(y),
+        "Check Subset": lambda x, y: x.issubset(y) or y.issubset(x)}
 
 for _ in range(int(input())):
-    command = input().split()
-    action = command[0]
-    if action == "Check":
-        print(line1.issubset(line2) or line2.issubset(line1))
+    line = input().split()
+    comm = " ".join(line[:2])
+    args = set(map(int, line[2::]))
+    seq_n = seq1 if line[1] == "First" else seq2
+    if comm == "Check Subset":
+        print(funcs[comm](seq1, seq2))
+    else:
+        funcs[comm](seq_n, args)
 
-    sequence = set(map(int, command[2:]))
-    if action == 'Add':
-        if command[1] == "First":
-            line1.update(sequence)
-        elif command[1] == "Second":
-            line2.update(sequence)
-    elif action == "Remove":
-        if command[1] == "First":
-            line1.difference_update(sequence)
-        elif command[1] == "Second":
-            line2.difference_update(sequence)
-
-print(*sorted(line1), sep=", ")
-print(*sorted(line2), sep=", ")
+print(", ".join(map(str, sorted(seq1))))
+print(", ".join(map(str, sorted(seq2))))
