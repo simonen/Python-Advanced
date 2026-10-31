@@ -1,61 +1,27 @@
-def subtract(collection_f):
-    res = collection_f[0]
-    for i in range(1, len(collection_f)):
-       res -= collection_f[i]
-
-    return res
+from functools import reduce
+import operator
 
 
-def multiply(collection_f):
-    res = 1
-    for i in range(0, len(collection_f)):
-       res *= collection_f[i]
+numbers = input().split()
+operators = "+-*/"
 
-    return res
+funcs = {"+": lambda *args: sum(args),
+         "-": lambda *args: args[0] - sum(args[1:]),
+         "*": lambda *args: reduce(operator.mul, args, 1),
+         "/": lambda *args: reduce(operator.floordiv, args)}
 
+curr_res = None
+start = 0
+args = []
+last_res = []
 
-def divide(collection_f):
-    res = collection_f[0]
-    for i in range(1, len(collection_f)):
-       res //= collection_f[i]
+for i in range(len(numbers)):
+    last_args = [curr_res] if curr_res is not None else []
 
-    return res
+    if numbers[i] in operators:
+        curr_operator = numbers[i]
+        args = last_res + list(map(int, numbers[start:i]))
+        start = i + 1
+        curr_res = funcs[curr_operator](*args)
 
-
-string = input().split()
-
-nums = []
-operators = '-+*/'
-operator = []
-string2 = []
-
-for i in string:
-    if i in operators:
-        operator.append(i)
-        string2.append(tuple(nums))
-        nums = []
-    else:
-        nums.append(int(i))
-
-
-result = 0
-for j in range(len(string2)):
-    if operator[j] == "-":
-        if j == 0:
-            result = subtract(string2[j])
-            continue
-        result -= sum(string2[j])
-    elif operator[j] == "+":
-        result += sum(string2[j])
-    elif operator[j] == "*":
-        if j == 0:
-            result = multiply(string2[j])
-            continue
-        result *= multiply(string2[j])
-    elif operator[j] == "/":
-        if j == 0:
-            result = divide(string2[j])
-            continue
-        result //= multiply(string2[j])
-
-print(result)
+print(curr_res)
