@@ -20,7 +20,6 @@ while bees and nectars:
         curr_operator = symbols.popleft()
         honey += funcs[curr_operator](*curr_args)
         curr_args = []
-        curr_operator = "N"
 
 print(f"Total honey made: {honey}")
 
