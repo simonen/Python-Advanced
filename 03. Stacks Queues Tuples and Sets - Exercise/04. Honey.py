@@ -1,21 +1,30 @@
-workers = input().split()
-nectar = input().split()
-process = input().split()
+from collections import deque
 
+
+funcs = {"+": lambda *args: sum(args),
+         "-": lambda *args: abs(args[0] - args[1]),
+         "*": lambda *args: args[0] * args[1],
+         "/": lambda *args: args[0] / args[1] if args[1] > 0 else 0
+        }
+
+bees = deque(list(map(int, input().split())))
+nectars = list(map(int, input().split()))
+symbols = input().split()
 honey = 0
-while workers and nectar:
-    bee = workers.pop(0)
-    juice = nectar.pop()
-    if int(bee) == 0 and int(juice) == 0:
-        continue
-    if int(juice) >= int(bee):
-        op = process.pop(0)
-        honey += abs(eval(f"{int(bee)} {op} {int(juice)}"))
-    else:
-        workers.insert(0, bee)
+
+while bees and nectars:
+    nectar = nectars.pop()
+    if nectar >= bees[0]:
+        bee = bees.popleft()
+        curr_args = [bee, nectar]
+        curr_operator = symbols.pop(0)
+        honey += funcs[curr_operator](*curr_args)
+        curr_args = []
+        curr_operator = "N"
 
 print(f"Total honey made: {honey}")
-if workers:
-    print(f"Bees left: {', '.join(workers)}")
-if nectar:
-    print(f"Nectar left: {', '.join(nectar)}")
+
+if bees:
+    print(f"Bees left: {', '.join(map(str, bees))}")
+if nectars:
+    print(f"Nectar left: {', '.join(map(str, nectars))}")
