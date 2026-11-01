@@ -9,7 +9,7 @@ funcs = {"+": lambda *args: sum(args),
 
 bees = deque(list(map(int, input().split())))
 nectars = list(map(int, input().split()))
-symbols = input().split()
+symbols = deque(input().split())
 honey = 0
 
 while bees and nectars:
@@ -17,7 +17,7 @@ while bees and nectars:
     if nectar >= bees[0]:
         bee = bees.popleft()
         curr_args = [bee, nectar]
-        curr_operator = symbols.pop(0)
+        curr_operator = symbols.popleft()
         honey += funcs[curr_operator](*curr_args)
         curr_args = []
         curr_operator = "N"
