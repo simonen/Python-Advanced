@@ -41,5 +41,5 @@ if magic_levels:
     print(f"Magic left: {', '.join(map(str, magic_levels))}")
 
 res = {k: v for k, v in crafted.items() if v > 0}
-for item, amount in sorted(res.items(), key=lambda x: x):
+for item, amount in sorted(res.items()):
     print(f"{item}: {amount}")
