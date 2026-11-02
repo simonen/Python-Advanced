@@ -1,39 +1,45 @@
-materials = input().split()
-magic_level = input().split()
+from collections import deque
 
-toys = {150: "Doll", 250: "Wooden train", 300: "Teddy bear", 400: "Bicycle"}
-presents = {}
 
-while materials and magic_level:
-    material = materials.pop()
-    magic = magic_level.pop(0)
-    total_magic = int(material) * int(magic)
-    if int(material) == 0 and int(magic) == 0:
+materials = list(map(int, input().split()))
+magic_levels = deque(list(map(int, input().split())))
+
+presents = {150: 'Doll', 250: 'Wooden train', 300: 'Teddy bear', 400: 'Bicycle'}
+zeroes = []
+crafted = {"Doll": 0, "Wooden train": 0, "Teddy bear": 0, "Bicycle": 0}
+
+while materials and magic_levels:
+    if magic_levels[0] == 0:
+        zeroes.append(magic_levels.popleft())
+    if materials[-1] == 0:
+        zeroes.append(materials.pop())
+    if zeroes:
+        zeroes = []
         continue
-    if total_magic > 0:
-        if total_magic in toys:
-            if toys[total_magic] not in presents:
-                presents[toys[total_magic]] = 0
-            presents[toys[total_magic]] += 1
-        else:
-            materials.append(str(int(material) + 15))
-    elif total_magic < 0:
-        total_magic = int(material) + int(magic)
-        materials.append(str(total_magic))
-    elif int(material) == 0:
-        magic_level.insert(0, magic)
-    elif int(magic) == 0:
-        materials.append(material)
 
-if "Doll" in presents and "Wooden train" in presents or ("Teddy bear" in presents and "Bicycle" in presents):
+    magic = magic_levels.popleft()
+    product = magic * materials[-1]
+
+    if product < 0:
+        materials.append(sum([materials.pop(), magic]))
+    elif product not in presents:
+        materials[-1] += 15
+    else:
+        material = materials.pop()
+        toy = presents[product]
+        crafted[toy] += 1
+
+
+if (crafted["Doll"] > 0 and crafted["Wooden train"] > 0) or (crafted["Teddy bear"] > 0 and  crafted["Bicycle"] > 0):
     print("The presents are crafted! Merry Christmas!")
 else:
     print("No presents this Christmas!")
 
 if materials:
-    print(f"Materials left: {', '.join(materials[::-1])}")
-if magic_level:
-    print(f"Magic left: {', '.join(magic_level)}")
+    print(f"Materials left: {', '.join(map(str, reversed(materials)))}")
+if magic_levels:
+    print(f"Magic left: {', '.join(map(str, magic_levels))}")
 
-for toy, count in sorted(presents.items(), key=lambda x: x):
-    print(f"{toy}: {count}")
+res = {k: v for k, v in crafted.items() if v > 0}
+for item, amount in sorted(res.items(), key=lambda x: x):
+    print(f"{item}: {amount}")
