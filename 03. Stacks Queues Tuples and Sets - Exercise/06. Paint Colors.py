@@ -1,37 +1,32 @@
-string = input().split()
+from collections import deque
 
-main_colors = ['red', 'yellow', 'blue']
-secondary = {'orange': ('red', 'yellow'), 'purple': ('red', 'blue'), 'green': ('yellow', 'blue')}
-paint = []
-secs = []
+
+string = deque(input().split())
+main = {"red", "yellow", "blue"}
+secondary = {"purple": ("red", "blue"), "green": ("yellow", "blue"), "orange": ("red", "yellow")}
+all_colors = set(secondary) | main
+colors = []
 
 while string:
-    last = ''
-    first = string.pop(0)
-    if len(string) >= 1:
-        last = string.pop()
-    if first + last in main_colors:
-        paint.append(first + last)
-    elif last + first in main_colors:
-        paint.append(last + first)
-    elif first + last in secondary:
-        secs.append(first + last)
-        paint.append("")
-    elif last + first in secondary:
-        paint.append("")
-        secs.append(last + first)
-    else:
-        if last[:-1] != '':
-            string.insert(len(string) // 2, last[:-1])
-        if first[:-1] != '':
-            string.insert(len(string) // 2, first[:-1])
+    first = string.popleft()
+    last = string.pop() if string else ''
 
-index = 0
-for i in range(len(paint)):
-    if paint[i] == "":
-        if all(x in paint for x in secondary[secs[index]]):
-            paint[i] = secs[index]
-            index += 1
+    color_found = ''
+    if first + last in all_colors:
+        color_found = first + last
+    elif last + first in all_colors:
+        color_found = last + first
 
-result = [x for x in paint if x != ""]
-print(result)
+    if color_found:
+        colors.append(color_found)
+        continue
+
+    if first[:-1]:
+        string.insert(len(string) // 2, first[:-1])
+    if last[:-1]:
+        string.insert(len(string) // 2, last[:-1])
+
+# res = [c for c in colors if c in main or all(m in colors for m in secondary[c])]
+res = [c for c in colors if c in main or set(secondary[c]).issubset(colors)]
+
+print(res)
