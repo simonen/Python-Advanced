@@ -1,22 +1,22 @@
-rows, cols = [int(x) for x in input().split(", ")]
-matrix = [[j for j in map(int, input().split(", "))] for i in range(rows)]
+def matrix_subdiv(matrix: list, size: int):
+    sub_rows = len(matrix)
+    sub_cols = len(matrix[0])
+    bucket_height = min(size, sub_rows)
+    bucket_width = min(size, sub_cols)
+    for row in range(sub_rows - bucket_height + 1):
+        for col in range(sub_cols - bucket_width + 1):
+            yield [matrix[row + s][col:col + bucket_width] for s in range(bucket_height)]
 
-# submatrix = []
-max_submatrix = []
-max_sum = 0
 
-for i in range(rows - 1):
-    for j in range(cols - 1):
-        subm = []
-        top_pair = matrix[i][j:j + 2]
-        subm.append(top_pair)
-        bottom_pair = matrix[i + 1][j:j + 2]
-        subm.append(bottom_pair)
-        # submatrix.append(subm)
-        if sum(top_pair) + sum(bottom_pair) > max_sum:
-            max_sum = sum(top_pair) + sum(bottom_pair)
-            max_submatrix = subm
+rows, cols = list(map(int, input().split(", ")))
+matrix = [[int(col) for col in input().split(", ")[:cols]] for row in range(rows)]
 
-for i in max_submatrix:
-    print(*i)
-print(max_sum)
+size = 2
+block = list(matrix_subdiv(matrix, size))
+best_sum = max([sum(map(sum, b)) for b in block])
+best_sub = max(block, key=lambda b: sum(map(sum, b)))
+
+for b in best_sub:
+    print(*b)
+
+print(best_sum)
