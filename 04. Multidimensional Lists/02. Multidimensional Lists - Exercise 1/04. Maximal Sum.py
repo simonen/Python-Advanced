@@ -1,6 +1,8 @@
 def matrix_subdiv(matrix: list, size: int):
-    sub_rows = len(matrix)
-    sub_cols = len(matrix[0])
+    """Yield all size×size (clamped) submatrices of matrix as lists of rows.
+    Single-use generator: re-call to iterate again.
+    """
+    sub_rows, sub_cols = len(matrix), len(matrix[0])
     bucket_height = min(size, sub_rows)
     bucket_width = min(size, sub_cols)
     for row in range(sub_rows - bucket_height + 1):
