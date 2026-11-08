@@ -3,12 +3,12 @@ rows, cols = list(map(int, input().split()))
 alpha = [chr(x) for x in range(97, 123)]
 matrix = []
 
-for i in range(rows):
+for row in range(rows):
     line = []
-    for j in range(cols):
-        palindrome = alpha[i]
-        palindrome += alpha[i + j]
-        palindrome += alpha[i]
+    for col in range(cols):
+        palindrome = alpha[row]
+        palindrome += alpha[row + col]
+        palindrome += alpha[row]
         line.append(palindrome)
 
     matrix.append(line)
