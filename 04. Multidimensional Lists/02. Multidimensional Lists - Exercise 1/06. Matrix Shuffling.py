@@ -1,23 +1,22 @@
-rows, cols = [int(x) for x in input().split()]
-matrix = [[j for j in input().split()] for i in range(rows)]
-command = input()
+rows, cols = map(int, input().split())
+matrix = [[col for col in input().split()] for row in range(rows)]
+is_valid = False
 
-while command != "END":
-    command = command.split()
-    action = command[0]
-    coord = command[1:]
-    valid = (
-        action == "swap" and
-        len(coord) == 4 and
-        int(coord[0]) in range(len(matrix)) and int(coord[2]) in range(len(matrix)) and
-        int(coord[1]) in range(len(matrix[0])) and int(coord[3]) in range(len(matrix[0]))
-    )
-    if valid:
-        row1, col1, row2, col2 = list(map(int, coord))
+command = input().split()
+while command[0] != "END":
+    if len(command) == 5 and command[0] == "swap":
+        try:
+            row1, col1, row2, col2 = (int(command[x]) for x in range(1, 5))
+            is_valid = (row1 in range(len(matrix)) and col1 in range(len(matrix[0])) and
+                        row2 in range(len(matrix)) and col2 in range(len(matrix[0])))
+        except ValueError:
+            is_valid = False
+
+    if is_valid:
         matrix[row1][col1], matrix[row2][col2] = matrix[row2][col2], matrix[row1][col1]
-        for i in matrix:
-            print(' '.join(i))
+        for row in matrix:
+            print(*row)
     else:
         print("Invalid input!")
 
-    command = input()
+    command = input().split()
