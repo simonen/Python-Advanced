@@ -1,15 +1,9 @@
-from math import ceil
+rows, cols = map(int, input().split())
+string = input()
 
-rows, cols = [int(x) for x in input().split()]
-string = list(input())
-symbols_needed = (rows * cols) / len(string)
-string *= ceil(symbols_needed)
-index = 0
+new_string = string * (rows * cols // len(string) + 1)
+direction = 1
 
-for i in range(rows):
-    if i % 2 == 0:
-        print(''.join(string[index:index + cols]))
-    else:
-        print(''.join(string[index:index + cols][::-1]))
-
-    index += cols
+for i in range(0, rows * cols, cols):
+    print(new_string[i: i + cols][::direction])
+    direction *= -1
