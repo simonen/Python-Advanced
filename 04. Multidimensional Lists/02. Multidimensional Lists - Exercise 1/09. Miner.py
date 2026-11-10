@@ -6,16 +6,16 @@ move = {"up": lambda x, y: (x - 1, y) if x > 0 else (x, y),
         "left": lambda x, y: (x, y - 1) if y > 0 else (x, y),
         "right": lambda x, y: (x, y + 1) if y < size - 1 else (x, y)}
 
-coal = [col for row in range(size) for col in range(size) if matrix[row][col] == "c"]
-miner_x, miner_y = next(((row, col) for row in range(size) for col in range(size) if matrix[row][col] == "s"))
+coal = sum(row.count('c') for row in matrix)
+miner_x, miner_y = next(((x, y) for x in range(size) for y in range(size) if matrix[x][y] == "s"))
 
 while commands:
     command = commands.pop(0)
     matrix[miner_x][miner_y] = "*"
     miner_x, miner_y = move[command](miner_x, miner_y)
     if matrix[miner_x][miner_y] == "c":
-        coal.pop()
-    if not coal:
+        coal -= 1
+    if coal == 0:
         print(f"You collected all coal! ({miner_x}, {miner_y})")
         break
     if matrix[miner_x][miner_y] == "e":
@@ -25,4 +25,4 @@ while commands:
     matrix[miner_x][miner_y] = "s"
 
 else:
-    print(f"{len(coal)} pieces of coal left. ({miner_x}, {miner_y})")
+    print(f"{coal} pieces of coal left. ({miner_x}, {miner_y})")
