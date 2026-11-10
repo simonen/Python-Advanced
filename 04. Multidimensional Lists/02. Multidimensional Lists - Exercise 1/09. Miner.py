@@ -1,34 +1,28 @@
 size = int(input())
 commands = input().split()
-matrix = [[j for j in input().split()] for i in range(size)]
+matrix = [[col for col in input().split()] for row in range(size)]
+move = {"up": lambda x, y: (x - 1, y) if x > 0 else (x, y),
+        "down": lambda x, y: (x + 1, y) if x < size - 1 else (x, y),
+        "left": lambda x, y: (x, y - 1) if y > 0 else (x, y),
+        "right": lambda x, y: (x, y + 1) if y < size - 1 else (x, y)}
 
-commands_rows = {
-    'up': lambda x: x - 1 if x - 1 in range(size) else x,
-    'down': lambda x: x + 1 if x + 1 in range(size) else x,
-}
-commands_cols = {
-    'left': lambda x: x - 1 if x - 1 in range(size) else x,
-    'right': lambda x: x + 1 if x + 1 in range(size) else x
-}
-
-coal = sum(row.count('c') for row in matrix)
-miner = next([x, y] for x in range(size) for y in range(size) if matrix[x][y] == "s")
+coal = [col for row in range(size) for col in range(size) if matrix[row][col] == "c"]
+miner_x, miner_y = next(((row, col) for row in range(size) for col in range(size) if matrix[row][col] == "s"))
 
 while commands:
-    action = commands.pop(0)
-    if action in commands_rows:
-        miner[0] = commands_rows[action](miner[0])
-    elif action in commands_cols:
-        miner[1] = commands_cols[action](miner[1])
-    row, col = miner
-    if matrix[row][col] == "e":
-        print('Game over!', tuple(miner))
+    command = commands.pop(0)
+    matrix[miner_x][miner_y] = "*"
+    miner_x, miner_y = move[command](miner_x, miner_y)
+    if matrix[miner_x][miner_y] == "c":
+        coal.pop()
+    if not coal:
+        print(f"You collected all coal! ({miner_x}, {miner_y})")
         break
-    if matrix[row][col] == "c":
-        matrix[row][col] = "*"
-        coal -= 1
-    if coal == 0:
-        print("You collected all coal!", tuple(miner))
+    if matrix[miner_x][miner_y] == "e":
+        print("Game over!", (miner_x, miner_y))
         break
+
+    matrix[miner_x][miner_y] = "s"
+
 else:
-    print(f"{coal} pieces of coal left. {tuple(miner)}")
+    print(f"{len(coal)} pieces of coal left. ({miner_x}, {miner_y})")
