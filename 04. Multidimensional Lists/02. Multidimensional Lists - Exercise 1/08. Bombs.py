@@ -1,41 +1,32 @@
 size = int(input())
-matrix = [[j for j in map(int, input().split())] for i in range(size)]
+matrix = [[int(col) for col in input().split()] for x in range(size)]
+blast_size = 3
+coords = [c for c in input().split()]
 
-for k in input().split():
-    row, col = list(map(int, k.split(",")))
-    damage = matrix[row][col]
-    if damage <= 0:
+def matrix_center(matrix: list, row: int, col: int, size: int):
+    if size % 2 == 0:
+        return "Size must be odd"
+    rows, cols = len(matrix), len(matrix[0])
+    start_row = max(0, row - size // 2)
+    start_col = max(0, col - size // 2)
+    end_row = min(rows - 1, row + size // 2)
+    end_col = min(cols - 1, col + size // 2)
+    return [(x, y) for x in range(start_row, end_row + 1) for y in range(start_col, end_col + 1)]
+
+for coord in coords:
+    b_row, b_col = map(int, coord.split(","))
+    bomb = matrix[b_row][b_col]
+    if bomb <= 0:
         continue
 
-    matrix[row][col] = 0
-    top_row = row - 1
-    end_row = row + 1
-    left_col = col - 1
-    right_col = col + 1
+    for row, col in matrix_center(matrix, b_row, b_col, blast_size):
+        if matrix[row][col] > 0:
+            matrix[row][col] -= bomb
 
-    if row == 0:
-        top_row = 0
-    if row == size - 1:
-        end_row = size - 1
-    if col == 0:
-        left_col = 0
-    if col == size - 1:
-        right_col = size - 1
-    # The 3x3 submatrix with the bomb at the center
-    for i in range(top_row, end_row + 1):
-        for j in range(left_col, right_col + 1):
-            if matrix[i][j] > 0:
-                matrix[i][j] -= damage
 
-active_cells = 0
-cell_sum = 0
-for i in range(size):
-    for j in range(size):
-        if matrix[i][j] > 0:
-            active_cells += 1
-            cell_sum += matrix[i][j]
+active = [y for x in matrix for y in x if y > 0]
 
-print(f'Alive cells: {active_cells}')
-print(f'Sum: {cell_sum}')
-for i in matrix:
-    print(*i)
+print(f"Alive cells: {len(active)}")
+print(f"Sum: {sum(active)}")
+for row in matrix:
+    print(*row)
