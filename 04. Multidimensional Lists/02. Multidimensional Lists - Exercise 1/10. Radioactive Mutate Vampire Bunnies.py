@@ -1,67 +1,68 @@
-def bunny_spread(row_f, col_f, rows_f, cols_f):
-    coords = set()
-    if row_f - 1 in range(rows_f):
-        coords.add((row_f - 1, col_f))
-    if row_f + 1 in range(rows_f):
-        coords.add((row_f + 1, col_f))
-    if col_f - 1 in range(cols_f):
-        coords.add((row_f, col_f - 1))
-    if col_f + 1 in range(cols_f):
-        coords.add((row_f, col_f + 1))
-
-    return coords
+from collections import deque
 
 
-rows, cols = [int(x) for x in input().split()]
-matrix = [[j for j in list(input())] for x in range(rows)]
-commands = list(input())
+def in_bounds(x: int, y: int):
+    return 0 <= x < rows and 0 <= y < cols
 
-commands_rows = {'U': lambda x: x - 1, 'D': lambda x: x + 1}
-commands_cols = {'L': lambda x: x - 1, 'R': lambda x: x + 1}
 
-bunnies = set()
-row, col = next([x, y] for x in range(rows) for y in range(cols) if matrix[x][y] == 'P') # Locate player
-is_winner = None
+def bunny_spread(x: int, y: int) -> set:
+    res = set()
+    for c in "UDLR":
+        new_x, new_y = direction[c](x, y)
+        if in_bounds(new_x, new_y):
+            res.add((new_x, new_y))
 
-while commands:
-    action = commands.pop(0)
-    matrix[row][col] = '.'
-    l_row = row
-    l_col = col
-    if action in commands_rows:
-        row = commands_rows[action](row)
-    elif action in commands_cols:
-        col = commands_cols[action](col)
+    return res
 
-    if row not in range(rows):
-        row = l_row
-        is_winner = True
-    elif col not in range(cols):
-        col = l_col
-        is_winner = True
-    elif matrix[row][col] == 'B':
-        is_winner = False
-    else:
-        matrix[row][col] = 'P'
 
-    for i in range(rows):
-        for j in range(cols):
-            if matrix[i][j] == "B":
-                bunnies = bunnies.union(bunny_spread(i, j, rows, cols))
+direction = {"U": lambda x, y: (x - 1, y),
+        "D": lambda x, y: (x + 1, y),
+        "L": lambda x, y: (x, y - 1),
+        "R": lambda x, y: (x, y + 1), }
 
-    for a, b in bunnies:
-        matrix[a][b] = "B"
 
-    if matrix[row][col] == "B" and is_winner is None:
-        is_winner = False
-    # print(*matrix, sep="\n")
-    # print()
-    if is_winner is not None:
+rows, cols = map(int, input().split())
+matrix = [list(input()) for _ in range(rows)]
+commands = deque(input())
+p_x, p_y = next((r, c) for r in range(rows) for c in range(cols) if matrix[r][c] == "P")
+active_bunnies = {(row, col) for row in range(rows) for col in range(cols) if matrix[row][col] == "B"}
+all_bunnies = active_bunnies.copy()
+is_escape = False
+
+while True:
+    command = commands.popleft()
+    matrix[p_x][p_y] = "."
+    last_coords = (p_x, p_y)
+    p_x, p_y = direction[command](p_x, p_y)
+
+    if not in_bounds(p_x, p_y):
+        is_escape = True
+        p_x, p_y = None, None
+
+    # Bunny propagation
+    new_bunnies = set()
+    for b_x, b_y in active_bunnies:
+        new_bunnies.update(bunny_spread(b_x, b_y))
+
+    active_bunnies = new_bunnies - all_bunnies # Keep only the last batch of bunnies
+    all_bunnies.update(new_bunnies)
+
+    for b_x, b_y in new_bunnies:
+        matrix[b_x][b_y] = "B"
+
+    is_dead = (p_x, p_y) in all_bunnies
+
+    if is_escape or is_dead:
         break
+
+    matrix[p_x][p_y] = "P"
+
 
 for i in matrix:
     print("".join(i))
-if not is_winner:
-    print("dead:", row, col)
-else:
-    print('won:', row, col)
+
+if is_dead:
+    print(f"dead: {p_x} {p_y}")
+elif is_escape:
+    p_x, p_y = last_coords
+    print(f"won: {p_x} {p_y}")
