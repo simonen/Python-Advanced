@@ -37,7 +37,7 @@ while True:
 
     if not in_bounds(p_x, p_y):
         is_escape = True
-        p_x, p_y = None, None
+        p_x, p_y = None, None    # Sentinel: off-board, never matches a bunny coord.
 
     # Bunny propagation
     new_bunnies = set()

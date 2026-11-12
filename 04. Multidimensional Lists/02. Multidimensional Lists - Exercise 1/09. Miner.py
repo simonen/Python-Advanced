@@ -1,6 +1,6 @@
 size = int(input())
 commands = input().split()
-matrix = [[col for col in input().split()] for row in range(size)]
+matrix = [list(input().split()) for _ in range(size)]
 move = {"up": lambda x, y: (x - 1, y) if x > 0 else (x, y),
         "down": lambda x, y: (x + 1, y) if x < size - 1 else (x, y),
         "left": lambda x, y: (x, y - 1) if y > 0 else (x, y),
