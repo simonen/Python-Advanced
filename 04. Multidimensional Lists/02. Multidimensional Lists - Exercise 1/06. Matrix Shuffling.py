@@ -1,5 +1,5 @@
 rows, cols = map(int, input().split())
-matrix = [[col for col in input().split()] for row in range(rows)]
+matrix = [list(input().split()) for _ in range(rows)]
 is_valid = False
 
 command = input().split()
