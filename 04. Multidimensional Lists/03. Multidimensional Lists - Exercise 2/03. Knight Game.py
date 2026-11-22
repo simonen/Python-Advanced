@@ -1,9 +1,8 @@
-def is_valid(coords):
-    if any(coord not in range(0, size) for coord in coords):
-        return False
-    return True
+def is_valid(coords: tuple[int, int]) -> bool:
+    r, c = coords
+    return 0 <= r < size and 0 <= c < size
 
-def moves(k_coords):
+def moves(k_coords: tuple[int, int]) -> set:
     k_x, k_y = k_coords
     possible_moves = set()
     dic = {"nw1": lambda x, y: (x - 2, y - 1),
