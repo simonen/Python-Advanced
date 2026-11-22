@@ -1,30 +1,30 @@
-def moves(k_pos):
-    k_row, k_col = k_pos
-    possibles_moves = set()
-    if k_row - 2 >= 0 and k_col - 1 >= 0:
-        possibles_moves.add((k_row - 2, k_col - 1))
-    if k_row - 1 >= 0 and k_col - 2 >= 0:
-        possibles_moves.add((k_row - 1, k_col - 2))
-    if k_row - 2 >= 0 and k_col + 1 < rows:
-        possibles_moves.add((k_row - 2, k_col + 1))
-    if k_row - 1 >= 0 and k_col + 2 < rows:
-        possibles_moves.add((k_row - 1, k_col + 2))
-    if k_row + 1 < rows and k_col - 2 >= 0:
-        possibles_moves.add((k_row + 1, k_col - 2))
-    if k_row + 2 < rows and k_col - 1 >= 0:
-        possibles_moves.add((k_row + 2, k_col - 1))
-    if k_row + 2 < rows and k_col + 1 < rows:
-        possibles_moves.add((k_row + 2, k_col + 1))
-    if k_row + 1 < rows and k_col + 2 < rows:
-        possibles_moves.add((k_row + 1, k_col + 2))
+def is_valid(coords):
+    if any(coord not in range(0, size) for coord in coords):
+        return False
+    return True
 
-    return possibles_moves
+def moves(k_coords):
+    k_x, k_y = k_coords
+    possible_moves = set()
+    dic = {"nw1": lambda x, y: (x - 2, y - 1),
+        "nw2": lambda x, y: (x - 1, y - 2),
+        "sw1": lambda x, y: (x + 1, y - 2),
+        "sw2": lambda x, y: (x + 2, y - 1),
+        "ne1": lambda x, y: (x - 2, y + 1),
+        "ne2": lambda x, y: (x - 1, y + 2),
+        "se1": lambda x, y: (x + 1, y + 2),
+        "se2": lambda x, y: (x + 2, y + 1),
+    }
 
+    for m in dic:
+        if is_valid(dic[m](k_x, k_y)):
+            possible_moves.add(dic[m](k_x, k_y))
 
-rows = int(input())
-matrix = [[j for j in list(input())] for i in range(rows)]
+    return possible_moves
 
-knights = [(i, j) for i in range(rows) for j in range(rows) if matrix[i][j] == "K"]
+size = int(input())
+matrix = [list(input()) for _ in range(size)]
+knights = {(r, c): None for r in range(size) for c in range(size) if matrix[r][c] == 'K'}
 removed = 0
 
 while knights:
@@ -34,13 +34,13 @@ while knights:
         targets = all_moves.intersection(knights)
         knights_book[k] = len(targets)
 
-    sorted_knights = sorted(knights_book.items(), key=lambda x: -x[1])
+    best_knight, attacks = max(knights_book.items(),key=lambda kv: kv[1])
 
-    if sorted_knights[0][1] == 0:
+    if attacks == 0:
         break
 
-    index = knights.index(sorted_knights[0][0])
-    knights.pop(index)
+    del knights[best_knight]
     removed += 1
+
 
 print(removed)
