@@ -1,41 +1,42 @@
+from math import inf
+
+
+def is_valid(coords: tuple[int, int]) -> bool:
+    r, c = coords
+    return 0 <= r < size and 0 <= c < size
+
+moves = {"up": lambda x, y: (x - 1, y),
+         "down": lambda x, y: (x + 1, y),
+         "left": lambda x, y: (x, y - 1),
+         "right": lambda x, y: (x, y + 1),
+         }
+
 size = int(input())
-matrix = [[j if j == 'B' or j == 'X' else int(j) for j in input().split()] for i in range(size)]
+matrix = [list(input().split()) for _ in range(size)]
+b_coords = next((i, j) for i in range(size) for j in range(size) if matrix[i][j] == "B")
+best_eggs = -inf
+best_direction = None
+best_coords = []
 
-bunny_x, bunny_y = next([i, j] for i in range(size) for j in range(size) if matrix[i][j] == "B")
-book = {'up': [], 'down': [], 'left': [], 'right': []}
-positions = {'up': [], 'down': [], 'left': [], 'right': []}
+for m in moves:
+    curr_coords = []
+    collected_eggs = []
+    b_x, b_y = b_coords
+    for _ in range(size):
+        b_x, b_y = moves[m](b_x, b_y)
+        if not is_valid((b_x, b_y)) or matrix[b_x][b_y] == "X":
+            break
 
-ups = bunny_x
-downs = size - bunny_x - 1
-lefts = bunny_y
-rights = size - bunny_y - 1
+        collected_eggs.append(int(matrix[b_x][b_y]))
+        curr_coords.append([b_x, b_y])
 
-for u in range(1, ups + 1):
-    if matrix[bunny_x - u][bunny_y] == 'X':
-        break
-    book['up'].append(matrix[bunny_x - u][bunny_y])
-    positions['up'].append([bunny_x - u, bunny_y])
+    if not collected_eggs:
+        continue
 
-for d in range(1, downs + 1):
-    if matrix[bunny_x + d][bunny_y] == 'X':
-        break
-    book['down'].append(matrix[bunny_x + d][bunny_y])
-    positions['down'].append([bunny_x + d, bunny_y])
+    curr_sum = sum(collected_eggs)
+    if curr_sum > best_eggs:
+        best_eggs = curr_sum
+        best_direction = m
+        best_coords = curr_coords
 
-for l in range(1, lefts + 1):
-    if matrix[bunny_x][bunny_y - l] == 'X':
-        break
-    book['left'].append(matrix[bunny_x][bunny_y - l])
-    positions['left'].append([bunny_x, bunny_y - l])
-
-for r in range(1, rights + 1):
-    if matrix[bunny_x][bunny_y + r] == 'X':
-        break
-    book['right'].append(matrix[bunny_x][bunny_y + r])
-    positions['right'].append([bunny_x, bunny_y + r])
-
-biggest = sorted(book.items(), key=lambda x: (-sum(x[1]), -len(x[1])))
-direction = biggest[0][0]
-eggs = sum(biggest[0][1])
-
-print(direction, *positions[direction], eggs, sep='\n')
+print(best_direction, *best_coords, best_eggs, sep='\n')
