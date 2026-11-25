@@ -1,8 +1,3 @@
-def step(direction: str, x: int, y: int) -> tuple[int, int]:
-    d_x, d_y = DELTAS[direction]
-    return x + d_x, y + d_y
-
-
 def in_bounds(row: int, col: int, grid: list) -> bool:
     return 0 <= row < len(grid) and 0 <= col < len(grid[0])
 
@@ -27,9 +22,14 @@ def shoot(direction: str, x: int, y: int, grid: list) -> tuple[int, int] | None:
             return x, y
 
 
-DELTAS = {"up": (-1, 0), "down": (1, 0), "left": (0, -1), "right": (0, 1)}
+def step(direction: str, x: int, y: int) -> tuple[int, int]:
+    d_x, d_y = DELTAS[direction]
+    return x + d_x, y + d_y
 
+
+DELTAS = {"up": (-1, 0), "down": (1, 0), "left": (0, -1), "right": (0, 1)}
 size = 5
+
 matrix = [list(input().split()) for _ in range(size)]
 
 p_x, p_y = next((i, j) for i in range(size) for j in range(size) if matrix[i][j] == 'A')
