@@ -1,47 +1,63 @@
+def in_bounds(row: int, col: int, grid: list) -> bool:
+    return 0 <= row < len(grid) and 0 <= col < len(grid[0])
+
+
+def move(direction: str, s: int, x: int, y: int, grid: list) -> tuple:
+    temp_x, temp_y = x, y
+    for _ in range(s):
+        temp_x, temp_y = x, y
+        x, y = directions[direction](x, y)
+        if not in_bounds(x, y, grid):
+            return temp_x, temp_y
+
+    if matrix[x][y] == "x":
+        return temp_x, temp_y
+    return x, y
+
+
+def shoot(direction: str, s: int, x: int, y: int, grid: list) -> list[int] | None:
+    for _ in range(s):
+        x, y = directions[direction](x, y)
+        if not in_bounds(x, y, grid):
+            break
+        if matrix[x][y] == "x":
+            return [x, y]
+    return None
+
+
 size = 5
-matrix = [[j for j in input().split()] for i in range(size)]
+matrix = [list(input().split()) for _ in range(size)]
 
-player_x, player_y = next([i, j] for j in range(5) for i in range(size) if matrix[i][j] == "A")
-targets = sum(i.count('x') for i in matrix)
-targets_left = targets
+p_x, p_y = next((i, j) for i in range(size) for j in range(size) if matrix[i][j] == 'A')
+targets = set((i, j) for i in range(size) for j in range(size) if matrix[i][j] == 'x')
 hits = []
-movement = {'up': lambda x, y, s: (x - s, y) if s > 0 else (x - 1, y),
-            'down': lambda x, y, s: (x + s, y) if s > 0 else (x + 1, y),
-            'left': lambda x, y, s: (x, y - s) if s > 0 else (x, y - 1),
-            'right': lambda x, y, s: (x, s + y) if s > 0 else (x, y + 1)}
 
-commands = int(input())
-for _ in range(commands):
-    command = input().split()
-    action = command[0]
-    direction = command[1]
-    p_x, p_y = player_x, player_y
-    if action == "move":
-        step = int(command[2])
-        p_x, p_y = movement[direction](p_x, p_y, step)
-        if p_x not in range(size) or p_y not in range(size) or matrix[p_x][p_y] != '.':
-            p_x, p_y = player_x, player_y
-        else:
-            matrix[player_x][player_y] = "."
-            player_x, player_y = p_x, p_y
-            matrix[player_x][player_y] = "A"
+directions = {"up": lambda x, y: (x - 1, y),
+              "down": lambda x, y: (x + 1, y),
+              "left": lambda x, y: (x, y - 1),
+              "right": lambda x, y: (x, y + 1), }
 
-    elif action == 'shoot':
-        for _ in range(size):
-            p_x, p_y = movement[direction](p_x, p_y, 0)
-            if p_x not in range(0, size) or p_y not in range(0, size):
-                break
-            if matrix[p_x][p_y] == 'x':
-                hits.append([p_x, p_y])
-                targets_left -= 1
-                matrix[p_x][p_y] = '.'
-                break
+for _ in range(int(input())):
+    c = input().split()
+    action, direct = c[0], c[1]
+    if action == "shoot":
+        target = shoot(direct, size, p_x, p_y, matrix)
+        if target is not None:
+            hits.append(target)
+            t_x, t_y = target
+            matrix[t_x][t_y] = "."
+            targets -= {(t_x, t_y)}
+    elif action == "move":
+        steps = int(c[2])
+        matrix[p_x][p_y] = '.'
+        p_x, p_y = move(direct, steps, p_x, p_y, matrix)
+        matrix[p_x][p_y] = 'A'
 
-    if targets_left == 0:
-        print(f"Training completed! All {targets} targets hit.")
+    if not targets:
+        print(f"Training completed! All {len(hits)} targets hit.")
         break
-
 else:
-    print(f"Training not completed! {targets_left} targets left.")
+    print(f"Training not completed! {len(targets)} targets left.")
 
-print(*hits, sep='\n')
+for h in hits:
+    print(h)
