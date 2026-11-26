@@ -1,49 +1,62 @@
+DELTAS = {"up": (-1, 0), "down": (1, 0), "left": (0, -1), "right": (0, 1)}
+def in_bounds(x, y, grid: list) -> bool:
+    return 0 <= x < len(grid) and 0 <= y < len(grid[0])
+
+
+def move(direction: str, x: int, y: int) -> tuple[int, int]:
+    d_x, d_y = DELTAS[direction]
+    if not in_bounds(x + d_x, y + d_y, matrix):
+        return x, y
+    return x + d_x, y + d_y
+
+
+def format_grid(grid: list) -> str:
+    return "\n".join(' '.join(i) for i in grid)
+
+
+def give_present(x: int, y: int) -> None:
+    global presents
+    presents -= 1
+    matrix[x][y] = "-"
+    nice_kids.discard((x, y))
+
+
 presents = int(input())
 size = int(input())
-matrix = [[j for j in input().split()] for i in range(size)]
+matrix = [list(input().split()) for _ in range(size)]
 
-movement = {
-    'up': lambda x, y: (x - 1, y) if x - 1 in range(size) else (x, y),
-    'down': lambda x, y: (x + 1, y) if x + 1 in range(size) else (x, y),
-    'left': lambda x, y: (x, y - 1) if y - 1 in range(size) else (x, y),
-    'right': lambda x, y: (x, y + 1) if x + 1 in range(size) else (x, y),
-}
-player_x, player_y = next([i, j] for j in range(size) for i in range(size) if matrix[i][j] == 'S')
-good_kids = sum([i.count('V') for i in matrix])
-kids_left = good_kids
+s_x, s_y = next((i, j) for i in range(size) for j in range(size) if matrix[i][j] == "S")
+nice_kids = {(i, j) for i in range(size) for j in range(size) if matrix[i][j] == "V"}
+initial_nice_kids = len(nice_kids)
 
-command = input()
-while command != "Christmas morning":
-    matrix[player_x][player_y] = '-'
-    player_x, player_y = movement[command](player_x, player_y)
-    current_pos = matrix[player_x][player_y]
-    visits = []
-    if current_pos == "C":
-        for direction in movement:
-            p_x, p_y = movement[direction](player_x, player_y)
-            if matrix[p_x][p_y] in "XV":
-                visits.append(matrix[p_x][p_y])
-            matrix[p_x][p_y] = '-'
 
-    elif current_pos == "V":
-        visits.append('V')
-
-    kids_left -= visits.count('V')
-    presents -= len(visits)
-    matrix[player_x][player_y] = "S"
-
-    if presents <= 0:
+while True:
+    command = input()
+    if command == "Christmas morning":
         break
 
-    command = input()
+    matrix[s_x][s_y] = "-"
+    s_x, s_y = move(command, s_x, s_y)
+    if matrix[s_x][s_y] == "V":
+        give_present(s_x, s_y)
+    elif matrix[s_x][s_y] == "C":
+        for d in DELTAS:
+            n_x, n_y = move(d, s_x, s_y)
+            if matrix[n_x][n_y] in ("X", "V"):
+                give_present(n_x, n_y)
+                if presents == 0:
+                    break
 
-if presents == 0 and kids_left > 0:
+    matrix[s_x][s_y] = "S"
+    if presents == 0:
+        break
+
+if presents == 0 and nice_kids:
     print("Santa ran out of presents!")
 
-for i in matrix:
-    print(' '.join(i))
+print(print_grid(matrix))
 
-if kids_left == 0:
-    print(f"Good job, Santa! {good_kids} happy nice kid/s.")
+if nice_kids:
+    print(f"No presents for {len(nice_kids)} nice kid/s.")
 else:
-    print(f"No presents for {kids_left} nice kid/s.")
+    print(f"Good job, Santa! {initial_nice_kids} happy nice kid/s.")
